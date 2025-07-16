@@ -19,7 +19,7 @@ public class Endereco {
     private String cidade;
     private String bairro;
     private String logradouro;
-    private String logradouroNumero;
+    private String numero;
     private String complemento;
 
     @ManyToOne

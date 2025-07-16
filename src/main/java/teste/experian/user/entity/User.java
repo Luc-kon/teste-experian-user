@@ -14,7 +14,14 @@ public class User {
     private Long id;
 
     private String username;
+
     private String password;
-    private long tipoUsuario;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    public enum Role {
+        ADMIN, USER
+    }
 
 }
