@@ -14,19 +14,19 @@ import java.util.Optional;
 public class LoginService {
 
     @Autowired
-    private UserRepository usuarioRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private JwtUtil jwtUtil;
 
     public LoginResponseDTO autenticar(LoginRequestDTO loginDTO) {
-        Optional<User> usuarioOpt = usuarioRepository.findByUsername(loginDTO.getUsername());
+        Optional<User> userOpt = userRepository.findByUsername(loginDTO.getUsername());
 
-        if (usuarioOpt.isEmpty()) {
+        if (userOpt.isEmpty()) {
             throw new RuntimeException("Usuário não encontrado");
         }
 
-        User user = usuarioOpt.get();
+        User user = userOpt.get();
 
         if (!user.getPassword().equals(loginDTO.getPassword())) {
             throw new RuntimeException("Senha inválida");
