@@ -5,7 +5,7 @@ import lombok.Data;  //loombok gera getters e setters!
 import lombok.NoArgsConstructor;  //loombok gera constructor vazio pro JPA!
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Data
 @NoArgsConstructor
 public class User {
