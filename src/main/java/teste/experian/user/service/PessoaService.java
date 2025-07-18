@@ -65,17 +65,33 @@ public class PessoaService {
 
     @Transactional
     public PessoaDTO atualizar(Long id, PessoaRequestDTO dto) {
-        Optional<Pessoa> pessoaOpt = pessoaRepository.findById(id);
-        if (pessoaOpt.isEmpty()) return null;
+        Pessoa pessoa = pessoaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pessoa não encontrada com id: " + id));
 
-        Pessoa pessoa = pessoaOpt.get();
         pessoa.setNome(dto.getNome());
         pessoa.setIdade(dto.getIdade());
         pessoa.setTelefone(dto.getTelefone());
         pessoa.setScore(dto.getScore());
-        pessoaRepository.save(pessoa);
 
-        // Endereços antigos mantidos (ou lógica extra pode ser adicionada para substituir)
+        pessoa = pessoaRepository.save(pessoa);
+
+        enderecoRepository.deleteAllByPessoaId(pessoa.getId());
+
+        for (EnderecoDTO enderecoDTO : dto.getEnderecos()) {
+            EnderecoDTO viaCep = buscarEnderecoViaCep(enderecoDTO.getCep());
+            if (viaCep != null) {
+                Endereco endereco = new Endereco();
+                endereco.setCep(viaCep.getCep());
+                endereco.setEstado(viaCep.getEstado());
+                endereco.setCidade(viaCep.getCidade());
+                endereco.setBairro(viaCep.getBairro());
+                endereco.setLogradouro(viaCep.getLogradouro());
+                endereco.setNumero(enderecoDTO.getNumero());
+                endereco.setComplemento(enderecoDTO.getComplemento());
+                endereco.setPessoa(pessoa);
+                enderecoRepository.save(endereco);
+            }
+        }
 
         return converterParaDTO(pessoa);
     }

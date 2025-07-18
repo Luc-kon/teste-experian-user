@@ -1,5 +1,6 @@
 package teste.experian.user.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -26,6 +27,7 @@ public class EnderecoDTO {
 
     private String bairro;
 
+    @JsonProperty(value = "localidade")
     private String cidade;
 
     private String estado;
