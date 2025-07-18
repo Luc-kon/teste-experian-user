@@ -1,5 +1,6 @@
 package teste.experian.user.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -9,6 +10,7 @@ import teste.experian.user.dto.PessoaDTO;
 import teste.experian.user.dto.PessoaRequestDTO;
 import teste.experian.user.service.PessoaService;
 
+@SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("/pessoas")
 public class PessoaController {

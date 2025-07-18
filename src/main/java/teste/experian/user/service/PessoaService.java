@@ -39,23 +39,9 @@ public class PessoaService {
         pessoa.setAtivo(true);
         pessoa = pessoaRepository.save(pessoa);
 
-        for (EnderecoDTO enderecoDTO : dto.getEnderecos()) {
-            EnderecoDTO viaCep = buscarEnderecoViaCep(enderecoDTO.getCep());
-            if (viaCep != null) {
-                Endereco endereco = new Endereco();
-                endereco.setCep(viaCep.getCep());
-                endereco.setEstado(viaCep.getEstado());
-                endereco.setCidade(viaCep.getCidade());
-                endereco.setBairro(viaCep.getBairro());
-                endereco.setLogradouro(viaCep.getLogradouro());
-                endereco.setNumero(enderecoDTO.getNumero());
-                endereco.setComplemento(enderecoDTO.getComplemento());
-                endereco.setPessoa(pessoa);
-                enderecoRepository.save(endereco);
-            }
-        }
-        pessoa = pessoaRepository.findById(pessoa.getId()).orElseThrow();
-        return converterParaDTO(pessoa);
+        criarEnderecos(pessoa, dto);
+
+        return converterParaDTO(pessoaRepository.findById(pessoa.getId()).orElseThrow());
     }
 
     public Page<PessoaDTO> listar(String nome, Integer idade, String cep, Pageable pageable) {
@@ -77,23 +63,9 @@ public class PessoaService {
 
         enderecoRepository.deleteAllByPessoaId(pessoa.getId());
 
-        for (EnderecoDTO enderecoDTO : dto.getEnderecos()) {
-            EnderecoDTO viaCep = buscarEnderecoViaCep(enderecoDTO.getCep());
-            if (viaCep != null) {
-                Endereco endereco = new Endereco();
-                endereco.setCep(viaCep.getCep());
-                endereco.setEstado(viaCep.getEstado());
-                endereco.setCidade(viaCep.getCidade());
-                endereco.setBairro(viaCep.getBairro());
-                endereco.setLogradouro(viaCep.getLogradouro());
-                endereco.setNumero(enderecoDTO.getNumero());
-                endereco.setComplemento(enderecoDTO.getComplemento());
-                endereco.setPessoa(pessoa);
-                enderecoRepository.save(endereco);
-            }
-        }
+        criarEnderecos(pessoa, dto);
 
-        return converterParaDTO(pessoa);
+        return converterParaDTO(pessoaRepository.findById(pessoa.getId()).orElseThrow());
     }
 
     @Transactional
@@ -113,6 +85,29 @@ public class PessoaService {
             return restTemplate.getForObject(url, EnderecoDTO.class);
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    public void criarEnderecos(Pessoa pessoaSalva, PessoaRequestDTO dtoPessoa){
+        for (EnderecoDTO enderecoDTO : dtoPessoa.getEnderecos()) {
+
+            if (enderecoDTO.getCep() != null) {
+                enderecoDTO.setCep(enderecoDTO.getCep().replace("-", ""));
+            }
+
+            EnderecoDTO viaCep = buscarEnderecoViaCep(enderecoDTO.getCep());
+            if (viaCep != null) {
+                Endereco endereco = new Endereco();
+                endereco.setCep(viaCep.getCep());
+                endereco.setEstado(viaCep.getEstado());
+                endereco.setCidade(viaCep.getCidade());
+                endereco.setBairro(viaCep.getBairro());
+                endereco.setLogradouro(viaCep.getLogradouro());
+                endereco.setNumero(enderecoDTO.getNumero());
+                endereco.setComplemento(enderecoDTO.getComplemento());
+                endereco.setPessoa(pessoaSalva);
+                enderecoRepository.save(endereco);
+            }
         }
     }
 

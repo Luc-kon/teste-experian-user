@@ -15,7 +15,6 @@ public class EnderecoDTO {
     private Long id;
 
     @NotBlank(message = "CEP é obrigatório")
-    @Pattern(regexp = "\\d{8}", message = "CEP deve conter 8 dígitos numéricos")
     private String cep;
 
     private String logradouro;

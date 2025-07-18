@@ -46,7 +46,7 @@ public class DataInitializer implements CommandLineRunner {
 
         if (pessoaRepository.count() == 0) {
             int idadeComum = 30;
-            String nomeRepetido = "João Silva";
+            String nomeRepetido = "João Costa";
             String cepComum = "01001000";
 
             EnderecoDTO e1 = new EnderecoDTO();
@@ -91,7 +91,7 @@ public class DataInitializer implements CommandLineRunner {
             e5.setComplemento("casa");
 
             pessoaService.criar(new PessoaRequestDTO(
-                    "Maria Oliveira",
+                    "Marta Oliveira",
                     idadeComum,
                     "11997776666",
                     800,
@@ -104,7 +104,7 @@ public class DataInitializer implements CommandLineRunner {
             e6.setComplemento("casa");
 
             pessoaService.criar(new PessoaRequestDTO(
-                    "Lucas Souza",
+                    "Lucas Kondo",
                     25,
                     "11996665555",
                     500,
