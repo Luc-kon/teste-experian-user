@@ -5,6 +5,7 @@ Sou desenvolvedor backend e preparei esse projeto com bastante dedicação para 
 --Sobre o projeto
 A proposta aqui é uma API REST simples, mas bem estruturada, que permite cadastrar pessoas e seus endereços.
 Dá pra cadastrar uma ou mais pessoas, e cada uma pode ter vários endereços já no momento do cadastro.
+(username: admin / senha: admin123 ; username:user / senha: user123)
 
 Os dados dos endereços são completados automaticamente via API externa, usando apenas o CEP informado.
 Tudo está validado, com autenticação via JWT, e perfis de acesso separados entre ADMIN e USER.
